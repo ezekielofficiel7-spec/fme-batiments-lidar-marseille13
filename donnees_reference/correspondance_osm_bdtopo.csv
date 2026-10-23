@@ -1,0 +1,118 @@
+cle_osm;valeur_osm;usage_bdtopo;confiance;commentaire
+building;house;Résidentiel;Haute;
+building;detached;Résidentiel;Haute;
+building;semidetached_house;Résidentiel;Haute;
+building;apartments;Résidentiel;Haute;
+building;residential;Résidentiel;Haute;
+building;terrace;Résidentiel;Haute;
+building;bungalow;Résidentiel;Haute;
+building;villa;Résidentiel;Haute;
+building;dormitory;Résidentiel;Haute;
+building;farm;Résidentiel;Haute;
+building;houseboat;Résidentiel;Haute;
+building;static_caravan;Résidentiel;Haute;
+building;commercial;Commercial et services;Haute;
+building;retail;Commercial et services;Haute;
+building;office;Commercial et services;Haute;
+building;supermarket;Commercial et services;Haute;
+building;kiosk;Commercial et services;Haute;
+building;hotel;Commercial et services;Haute;
+building;school;Commercial et services;Haute;Équipements publics classés en services
+building;university;Commercial et services;Haute;Équipements publics classés en services
+building;college;Commercial et services;Haute;Équipements publics classés en services
+building;kindergarten;Commercial et services;Haute;Équipements publics classés en services
+building;hospital;Commercial et services;Haute;Équipements publics classés en services
+building;public;Commercial et services;Haute;Équipements publics classés en services
+building;civic;Commercial et services;Haute;Équipements publics classés en services
+building;government;Commercial et services;Haute;Équipements publics classés en services
+building;fire_station;Commercial et services;Haute;Équipements publics classés en services
+building;train_station;Commercial et services;Haute;Équipements publics classés en services
+building;transportation;Commercial et services;Haute;Équipements publics classés en services
+building;industrial;Industriel;Haute;service = local technique (transformateur…)
+building;warehouse;Industriel;Haute;service = local technique (transformateur…)
+building;factory;Industriel;Haute;service = local technique (transformateur…)
+building;manufacture;Industriel;Haute;service = local technique (transformateur…)
+building;hangar;Industriel;Haute;service = local technique (transformateur…)
+building;storage_tank;Industriel;Haute;service = local technique (transformateur…)
+building;service;Industriel;Haute;service = local technique (transformateur…)
+building;barn;Agricole;Haute;
+building;cowshed;Agricole;Haute;
+building;farm_auxiliary;Agricole;Haute;
+building;greenhouse;Agricole;Haute;
+building;glasshouse;Agricole;Haute;
+building;stable;Agricole;Haute;
+building;sty;Agricole;Haute;
+building;silo;Agricole;Haute;
+building;church;Religieux;Haute;
+building;chapel;Religieux;Haute;
+building;cathedral;Religieux;Haute;
+building;mosque;Religieux;Haute;
+building;synagogue;Religieux;Haute;
+building;temple;Religieux;Haute;
+building;religious;Religieux;Haute;
+building;shrine;Religieux;Haute;
+building;monastery;Religieux;Haute;
+building;sports_hall;Sportif;Haute;
+building;stadium;Sportif;Haute;
+building;sports_centre;Sportif;Haute;
+building;grandstand;Sportif;Haute;
+building;pavilion;Sportif;Haute;
+building;riding_hall;Sportif;Haute;
+building;garage;Annexe;Haute;Petits bâtiments et annexes
+building;garages;Annexe;Haute;Petits bâtiments et annexes
+building;shed;Annexe;Haute;Petits bâtiments et annexes
+building;carport;Annexe;Haute;Petits bâtiments et annexes
+building;roof;Annexe;Haute;Petits bâtiments et annexes
+building;hut;Annexe;Haute;Petits bâtiments et annexes
+building;cabin;Annexe;Haute;Petits bâtiments et annexes
+building;toilets;Annexe;Haute;Petits bâtiments et annexes
+building;parking;Annexe;Haute;Petits bâtiments et annexes
+building;yes;(pas d'information);—;Passer aux règles suivantes (POI, landuse)
+building;construction;(pas d'information);—;Passer aux règles suivantes (POI, landuse)
+amenity;school;Commercial et services;Moyenne;POI dans l'emprise
+amenity;college;Commercial et services;Moyenne;POI dans l'emprise
+amenity;university;Commercial et services;Moyenne;POI dans l'emprise
+amenity;kindergarten;Commercial et services;Moyenne;POI dans l'emprise
+amenity;hospital;Commercial et services;Moyenne;POI dans l'emprise
+amenity;clinic;Commercial et services;Moyenne;POI dans l'emprise
+amenity;doctors;Commercial et services;Moyenne;POI dans l'emprise
+amenity;pharmacy;Commercial et services;Moyenne;POI dans l'emprise
+amenity;townhall;Commercial et services;Moyenne;POI dans l'emprise
+amenity;police;Commercial et services;Moyenne;POI dans l'emprise
+amenity;fire_station;Commercial et services;Moyenne;POI dans l'emprise
+amenity;post_office;Commercial et services;Moyenne;POI dans l'emprise
+amenity;library;Commercial et services;Moyenne;POI dans l'emprise
+amenity;bank;Commercial et services;Moyenne;POI dans l'emprise
+amenity;restaurant;Commercial et services;Moyenne;POI dans l'emprise
+amenity;cafe;Commercial et services;Moyenne;POI dans l'emprise
+amenity;fast_food;Commercial et services;Moyenne;POI dans l'emprise
+amenity;bar;Commercial et services;Moyenne;POI dans l'emprise
+amenity;community_centre;Commercial et services;Moyenne;POI dans l'emprise
+amenity;theatre;Commercial et services;Moyenne;POI dans l'emprise
+amenity;cinema;Commercial et services;Moyenne;POI dans l'emprise
+amenity;place_of_worship;Religieux;Haute;POI dans l'emprise
+shop;*;Commercial et services;Moyenne;"Toute valeur ; en RDC d'un résidentiel → usage2"
+office;*;Commercial et services;Moyenne;Toute valeur
+craft;*;Commercial et services;Faible;Hypothèse : artisanat assimilé aux services
+leisure;sports_centre;Sportif;Moyenne;POI dans l'emprise
+leisure;stadium;Sportif;Moyenne;POI dans l'emprise
+leisure;fitness_centre;Sportif;Moyenne;POI dans l'emprise
+leisure;sports_hall;Sportif;Moyenne;POI dans l'emprise
+leisure;swimming_pool;Sportif;Moyenne;POI dans l'emprise
+leisure;ice_rink;Sportif;Moyenne;POI dans l'emprise
+landuse;residential;Résidentiel;Faible;Zone : usage par défaut
+landuse;commercial;Commercial et services;Faible;Zone : usage par défaut
+landuse;retail;Commercial et services;Faible;Zone : usage par défaut
+landuse;education;Commercial et services;Faible;Zone : usage par défaut
+landuse;industrial;Industriel;Faible;Zone : usage par défaut
+landuse;port;Industriel;Faible;Zone : usage par défaut
+landuse;railway;Industriel;Faible;Zone : usage par défaut
+landuse;farmland;Agricole;Faible;Zone : usage par défaut
+landuse;farmyard;Agricole;Faible;Zone : usage par défaut
+landuse;orchard;Agricole;Faible;Zone : usage par défaut
+landuse;vineyard;Agricole;Faible;Zone : usage par défaut
+landuse;greenhouse_horticulture;Agricole;Faible;Zone : usage par défaut
+landuse;meadow;Agricole;Faible;Zone : usage par défaut
+landuse;religious;Religieux;Faible;Zone : usage par défaut
+landuse;cemetery;Religieux;Faible;Zone : usage par défaut
+landuse;recreation_ground;Sportif;Faible;Zone : usage par défaut

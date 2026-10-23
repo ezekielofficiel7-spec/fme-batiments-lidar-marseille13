@@ -1,0 +1,35 @@
+SOURCE DES DONNEES LANDSAT
+==========================
+Projet      : FME Workflow & Spectral Indices - Master 2 GMS, Aix-Marseille Universite
+Zone        : 13e arrondissement de Marseille (INSEE 13213)
+Fournisseur : USGS, via Google Earth Engine
+Collection  : LANDSAT/LC08/C02/T1_L2 (Collection 2, Level-2, Tier 1)
+Produits    : Surface Reflectance (SR_B1-B7) + Surface Temperature (ST_B10)
+Capteur     : Landsat 8 OLI/TIRS
+Trace WRS-2 : 195/030
+Acces       : octobre 2026, projet Google Earth Engine "fmemarseille"
+
+SCENES UTILISEES
+----------------
+Date imposee   Scene ID                 Nuages (scene entiere)
+2013_07_23     LC08_195030_20130723     0.6 %
+2013_12_30     LC08_195030_20131230     0.3 %
+2025_11_29     LC08_195030_20251129     0.4 %
+Ete 2026       LC08_195030_20260727     0.3 %
+
+Choix ete 2026 : scene quasi sans nuage au coeur de l'ete (forte chaleur),
+meme capteur (Landsat 8) et meme trace (195/030) que les 3 autres dates,
+pour une geometrie d'acquisition homogene.
+Absence de nuages sur le 13e verifiee visuellement (composition couleurs naturelles).
+
+PRODUITS DERIVES
+----------------
+Fichiers    : 03_Intermediaire/LANDSAT/Indices_<date>.tif (4 fichiers)
+Format      : GeoTIFF float32, 8 bandes nommees
+              1 LST (deg C), 2 NDVI, 3 NDBI, 4 NDMI, 5 NDWI, 6 BSI, 7 EMIS, 8 ALB
+Projection  : EPSG:2154 (Lambert 93)
+Resolution  : 30 m
+Nodata      : -9999
+Controle    : 03_Intermediaire/LANDSAT/Controle_indices.csv
+
+Traitement  : voir 02_Python/indices_spectraux_landsat.py
