@@ -1,91 +1,109 @@
-# Comparaison Landsat / Sentinel-2 / Kanopus-V et suivi de l'occupation du sol (Klaipėda, Lituanie)
+# Enrichissement du bâti par LiDAR HD et indices spectraux (Marseille 13e)
 
-> Quel capteur pour quel objet urbain ? Comparaison de trois satellites, puis analyse des changements 2013-2025 et carte web interactive.
-> *Comparative performance of Landsat 8 OLI/TIRS, Sentinel-2 MSI and Kanopus-V for urban mapping, LULC change 2013-2025.*
+> Une chaîne FME qui ajoute à chaque bâtiment de la BD TOPO sa hauteur LiDAR HD et 8 indicateurs Landsat sur 4 dates, pour alimenter une modélisation de la performance énergétique.
+> *FME workflow enriching 28,000 BD TOPO building footprints with LiDAR HD heights and Landsat 8 spectral statistics (LST, NDVI, NDBI, NDMI, NDWI, BSI, emissivity, albedo).*
 
-![Occupation du sol 2013 vs 2025](figures/06_lulc_2013_vs_2025.png)
+![Indices spectraux Landsat, 27 juillet 2026](figures/01_indices_landsat_2026_07_27.png)
 
-**Master 1 Géomatique et modélisation spatiale (GMS)**, Aix-Marseille Université | 2025-2026
-**Travail de groupe** : M. Gueye, A. Bakhoum, A. E. Soukou | Rapport en anglais
-Exercice individuel complémentaire sous TerrSet (LCM, HBM, ETM)
+**Master 2 Géomatique et modélisation spatiale (GMS)**, Aix-Marseille Université | 2026-2027
+Cours *FME Workflow & Spectral Indices* | **Travail de groupe (groupe 3)** : A. Bakhoum, F. Omar, A. E. Soukou
+**Projet en cours** : la partie LiDAR est terminée, l'intégration des indices et d'OSM dans FME est en cours.
 
 ---
 
-## Question
+## Objectif
 
-*Comment les différences spectrales, spatiales et temporelles entre Sentinel-2, Landsat OLI/TIRS et Kanopus-V influencent-elles la détection, la reconnaissance et la classification des objets urbains de Klaipėda ?*
+Produire un fichier unique, `Enriched_Building.shp`, limité au **13e arrondissement de Marseille** (13013) et conforme au schéma BD TOPO BATIMENT. Chaque bâtiment y reçoit :
+
+- sa **hauteur LiDAR** : `Z_MNS - Z_MNT` sur l'emprise, calculée **dans FME** ;
+- les valeurs **min, moyenne et max** de 8 indices sur l'emprise, pour **4 dates** ;
+- un **usage complété** par OpenStreetMap quand la BD TOPO est lacunaire.
 
 ## Données
 
-| Capteur | Résolution | Usage |
+| Donnée | Source | Détail |
 |---|---|---|
-| **Kanopus-V** (Roscosmos, nov. 2021) | Très haute résolution | Référence pour les objets urbains |
-| **Sentinel-2 MSI** (ESA) | 10 m | Occupation du sol 2019-2025 |
-| **Landsat 8/9 OLI-TIRS** (NASA/USGS) | 30 m (15 m pansharpené) | Occupation du sol 2013-2025 |
-| **Urban Atlas 2018, Corine Land Cover 2018, OSM** | vecteur | Validation croisée |
+| **BD TOPO BATIMENT** | IGN | 28 452 bâtiments dans le 13e |
+| **LiDAR HD** (MNS, MNT et nuage de points LAZ) | IGN, Géoplateforme | 47 dalles de 1 km, résolution 50 cm |
+| **Landsat 8 OLI/TIRS**, Collection 2 Level-2 | USGS, via Google Earth Engine | Trace 195/030, 4 scènes avec moins de 1 % de nuages |
+| **OpenStreetMap** | Contributeurs OSM | Occupation du sol (landuse, amenity, leisure, natural) |
 
-## Méthode
+**Scènes Landsat retenues**
 
-**Partie 1, détection et reconnaissance des objets urbains**
-- Typologie des objets (eau, champs, bois, sols nus, bâti) et **matrice de détectabilité** capteur × domaine spectral × objet
-- Prétraitements : rééchantillonnage, pansharpening, ACP, MNF et compositions colorées
-- Classifications : ISOCLUST, Random Forest, SVM et approche orientée objet (GEOBIA)
-- Validation avec Urban Atlas, Corine Land Cover et OSM
-
-**Partie 2, dynamique temporelle 2013-2025**
-- Séries harmonisées Landsat et Sentinel-2 aux mêmes saisons
-- **Land Change Modeler** : gains, pertes, contributions et tendance spatiale (polynôme d'ordre 3)
-- **Habitat and Biodiversity Modeler** : attrition, agrégation et création de taches, surface et compacité des taches
-- **Earth Trends Modeler** : projection 2025-2035 par chaînes de Markov
-
-![Méthodologie](figures/01_methodologie_partie1.png)
-
-![Méthodologie, partie 2](figures/02_methodologie_partie2.png)
-
-## Résultats clés
-
-**Matrice de détectabilité**
-
-| Objet | Landsat 8 | Sentinel-2 | Kanopus-V |
-|---|---|---|---|
-| Bâti | Élevée | Élevée | Élevée |
-| Champs | Plutôt faible | Moyenne | Élevée |
-| Bois | Faible | Moyenne | Élevée |
-| Eau | Trop faible | Faible | Élevée |
-| Sol nu | Très faible | Faible | Moyenne |
-
-- **Le choix du capteur dépend de l'objet visé.** Kanopus-V isole bâtiments et rues, Sentinel-2 offre le meilleur compromis pour un suivi à échelle moyenne, et Landsat assure la continuité temporelle longue.
-
-**Changements 2021-2025** (exercice TerrSet sur l'occupation du sol issue de Sentinel-2) :
-
-- **Le bâti progresse de +1 211 ha net** (2 814 ha gagnés contre 1 600 ha perdus), **la végétation de +3 617 ha** et **l'eau de +420 ha**.
-- **Les terres agricoles reculent de -3 299 ha et les sols nus de -1 949 ha**, au profit du bâti et de la végétation.
-- **Le bâti gagne surtout sur la végétation** (549 ha), puis sur les sols nus (426 ha).
-
-| Kanopus-V | Urban Atlas (référence) | Landsat 8 et Corine |
+| Date imposée | Scène | Nuages |
 |---|---|---|
-| ![](figures/04_kanopus_v_lulc.png) | ![](figures/05_urban_atlas.png) | ![](figures/03_landsat8_vs_corine.png) |
+| 23/07/2013 | LC08_195030_20130723 | 0,6 % |
+| 30/12/2013 | LC08_195030_20131230 | 0,3 % |
+| 29/11/2025 | LC08_195030_20251129 | 0,4 % |
+| Été 2026 | LC08_195030_20260727 | 0,3 % |
 
-| Gains et pertes du bâti (LCM) | Tendance végétation vers bâti | Dynamique paysagère (HBM) |
-|---|---|---|
-| ![](figures/07_terrset_gains_pertes_bati.png) | ![](figures/10_tendance_cubique_vegetation_vers_bati.png) | ![](figures/11_dynamique_paysagere_hbm.png) |
+Les 4 scènes ont le même capteur et la même trace, donc une géométrie d'acquisition homogène.
 
-| Surfaces par classe, 2013 vs 2025 | Gains et pertes par classe (LCM) |
+## Chaîne de traitement
+
+1. Entrées : BD TOPO BATIMENT, LiDAR HD (MNS et MNT), indices Landsat, OSM
+2. Dans FME : découpage sur le 13e, hauteur (MNS - MNT), statistiques zonales des indices, usage complété par OSM
+3. Sortie : Enriched_Building.shp (EPSG:2154)
+
+### 1. Téléchargement automatisé ([`scripts/00_telechargement_donnees_13e.py`](scripts/00_telechargement_donnees_13e.py))
+- Emprise calculée depuis la limite du 13e, avec une marge de 100 m, en Lambert 93
+- **LiDAR HD** : interrogation WFS du tableau d'assemblage IGN, téléchargement en flux avec reprise sur erreur
+- **Landsat** : recherche STAC (Planetary Computer), lecture fenêtrée des COG pour ne télécharger que l'emprise
+- **OSM** : extraction des polygones d'occupation du sol avec `osmnx`
+
+### 2. Indices spectraux ([`scripts/01_indices_spectraux_landsat.py`](scripts/01_indices_spectraux_landsat.py))
+
+| Indice | Formule (bandes OLI) |
 |---|---|
-| ![](figures/08_evolution_surfaces_2013_2025.png) | ![](figures/09_lcm_gains_pertes.png) |
+| **LST** | `ST_B10 (K) - 273,15` (produit Surface Temperature L2) |
+| **NDVI** | `(B5 - B4) / (B5 + B4)` |
+| **NDBI** | `(B6 - B5) / (B6 + B5)` |
+| **NDMI** | `(B5 - B6) / (B5 + B6)` |
+| **NDWI** | `(B3 - B5) / (B3 + B5)` (McFeeters, 1996) |
+| **BSI** | `((B6 + B4) - (B5 + B2)) / ((B6 + B4) + (B5 + B2))` |
+| **Émissivité** | Seuils NDVI (Sobrino et al., 2004) |
+| **Albédo** | `(0,356 B2 + 0,130 B4 + 0,373 B5 + 0,085 B6 + 0,072 B7 - 0,0018) / 1,016` (Liang, 2001) |
 
-## Carte web
+Prétraitements : facteurs d'échelle C2 L2, masque nuages et ombres (`QA_PIXEL`), puis **masque des réflectances aberrantes**, qui ramène le BSI de [-9,56 ; 2,30] à [-0,47 ; 0,55] et supprime les albédos négatifs.
+Sortie : 4 GeoTIFF de 8 bandes nommées, en EPSG:2154 à 30 m, avec nodata = -9999 pour que FME ignore les pixels masqués.
 
-Une carte interactive (Leaflet, export qgis2web) superpose les occupations du sol 2013, 2019, 2021 et 2025, Urban Atlas, Corine Land Cover et le bâti. Elle est disponible sur demande.
+### 3. Contrôle qualité (scène du 27/07/2026)
+
+| Indice | Min | Max | Bornes attendues | Verdict |
+|---|---|---|---|---|
+| LST (°C) | 23,6 | 50,3 | 20 à 55 | OK |
+| NDVI | -0,87 | 1,00 | -1 à 1 | OK |
+| NDBI | -0,48 | 0,81 | -1 à 1 | OK |
+| BSI | -0,47 | 0,55 | -1 à 1 | OK |
+| Émissivité | 0,973 | 0,991 | 0,97 à 0,995 | OK |
+| Albédo | 0,004 | 0,624 | 0 à 1 | OK |
+
+### 4. Usage des bâtiments via OSM
+[`donnees_reference/correspondance_osm_bdtopo.csv`](donnees_reference/correspondance_osm_bdtopo.csv) : une table de **117 correspondances** entre tags OSM et usages BD TOPO, avec un niveau de confiance pour chacune. Elle sert à compléter les usages manquants.
+
+## Aperçu
+
+| LST : été 2013 vs été 2026 | Bâti BD TOPO (données d'entrée) |
+|---|---|
+| ![](figures/02_lst_2013_vs_2026.png) | ![](figures/03_bati_bdtopo_entree.png) |
+
+## Reproduire
+
+1. Ouvrir les scripts dans **Google Colab** (cellules `# %%` dans l'ordre).
+2. Placer la limite du 13e (`Arrondissement 13.gpkg`) dans `MyDrive/FME/`.
+3. Pour les indices : disposer d'un compte **Google Earth Engine** et remplacer `PROJECT_ID` par son propre projet Cloud.
+
+Les données brutes (LiDAR : plusieurs Go ; rasters) ne sont pas versionnées : les scripts les retéléchargent depuis les sources officielles.
 
 ## Outils
 
-`TerrSet` (LCM, HBM, ETM) | `ENVI` | `QGIS` | `qgis2web` (Leaflet) | Random Forest | SVM | GEOBIA
+`FME` | `Google Earth Engine` | `Python` (GeoPandas, rasterio, pystac-client, osmnx) | `LiDAR HD IGN` | `Landsat 8`
 
 ## Contenu du dépôt
 
-- `figures/` : méthodologie, cartes par capteur, changements, TerrSet
-- `rapport/` : rapport de groupe (PDF, 40 p.) et exercice TerrSet individuel (PDF)
+- `scripts/` : téléchargement des données, calcul des indices
+- `donnees_reference/` : URL des 47 dalles LiDAR, scènes Landsat, table de correspondance OSM / BD TOPO
+- `figures/` : indices, LST 2013/2026, bâti
 
 ---
 
